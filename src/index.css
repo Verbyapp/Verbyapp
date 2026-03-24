@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 30% 98%;
+    --foreground: 0 0% 20%;
+    --border: 0 0% 90%;
+    --coral: 8 84% 50%;
+  }
+
+  /* This fixes the "border-border" error by ensuring every element
+     has a default border color variable */
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    @apply bg-[#FDFCF8] text-[#333333] antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@keyframes fade-in-blur {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.animate-fade-in-blur {
+  animation: fade-in-blur 0.8s ease-out forwards;
+}
