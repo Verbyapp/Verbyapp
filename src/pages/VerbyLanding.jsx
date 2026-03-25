@@ -28,7 +28,7 @@ const VerbyLanding = () => {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4 mb-4 lg:mb-6 animate-fade-in-blur [animation-delay:0.3s]">
-            <Link to="/register" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md h-12 px-6 flex items-center justify-center transition-all shadow-sm">
+            <Link to="/login" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md h-12 px-6 flex items-center justify-center transition-all shadow-sm">
               Start playing
             </Link>
             {/* Changed bg-white to bg-[#F0EFEB] */}
@@ -202,7 +202,7 @@ const VerbyLanding = () => {
           <section className="py-12 text-center border-t border-[#DEDDDA]">
             <p className="text-sm mb-2 text-[#333333] font-bold">Ready to master the verbs?</p>
             <p className="text-sm mb-8 text-gray-400">Join 5,000+ students learning the right way.</p>
-            <Link to="/register" className="bg-[#EB3514] text-white px-10 py-4 rounded-md font-bold text-sm hover:bg-[#EB3514]/90 transition-all shadow-sm">
+            <Link to="/login" className="bg-[#EB3514] text-white px-10 py-4 rounded-md font-bold text-sm hover:bg-[#EB3514]/90 transition-all shadow-sm">
                 Get started for free
             </Link>
           </section>
