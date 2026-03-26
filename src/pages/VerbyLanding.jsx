@@ -32,10 +32,17 @@ const VerbyLanding = () => {
               Start playing
             </Link>
             {/* Changed bg-white to bg-[#F0EFEB] */}
-            <button className="bg-[#F0EFEB] hover:bg-gray-200 text-[#333333] border border-[#DEDDDA] font-bold rounded-md h-12 px-6 flex items-center justify-center gap-3 transition-all shadow-sm">
-               <img src="https://www.svgrepo.com/show/355037/google.svg" className="w-5 h-5" alt="Google" />
-               Continue with Google
-            </button>
+            <Link
+            to="/login"
+            className="bg-[#F0EFEB] hover:bg-gray-200 text-[#333333] border border-[#DEDDDA] font-bold rounded-md h-12 px-6 flex items-center justify-center gap-3 transition-all shadow-sm"
+            >
+            <img
+                src="https://www.svgrepo.com/show/355037/google.svg"
+                className="w-5 h-5"
+                alt="Google"
+            />
+            Continue with Google
+            </Link>
           </div>
           <p className="text-xs lg:text-sm text-gray-400 mb-8 lg:mb-12 animate-fade-in-blur [animation-delay:0.4s]">No credit card. No ads. Just verbs.</p>
 
