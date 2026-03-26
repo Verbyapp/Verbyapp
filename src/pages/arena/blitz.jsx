@@ -16,12 +16,12 @@ const PERSONS = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
 
 const getPersonLabel = (key) => {
   const labels = {
-    je: "j&apos;/je",
+    je: 'je',
     tu: 'tu',
-    il: 'il/elle/on',
+    'il/elle/on': 'il/elle/on',
     nous: 'nous',
     vous: 'vous',
-    ils: 'ils/elles',
+    'ils/elles': 'ils/elles',
   };
   return labels[key] || key;
 };
@@ -128,11 +128,31 @@ const Blitz = () => {
       if (conjugation.startsWith("j'") && person === 'je') {
         return { person: 'je', verbPart: conjugation.slice(2) };
       }
+      if (conjugation.startsWith("n'") && person === 'nous') {
+        return { person: 'nous', verbPart: conjugation.slice(2) };
+      }
+      if (conjugation.startsWith("l'") && person === 'ils') {
+        return { person: 'il/elle/on', verbPart: conjugation.slice(2) };
+      }
+      if (conjugation.startsWith("t'") && person === 'tu') {
+        return { person: 'tu', verbPart: conjugation.slice(2) };
+      }
+      if (conjugation.startsWith("s'") && person === 'vous') {
+        return { person: 'vous', verbPart: conjugation.slice(2) };
+      }
+      if (conjugation.startsWith("qu'")) {
+        if (conjugation.startsWith("qu'il") || conjugation.startsWith("qu'elle") || conjugation.startsWith("qu'on")) {
+          return { person: 'il/elle/on', verbPart: conjugation.slice(3) };
+        }
+      }
     }
     return null;
   };
 
   const generateOptions = useCallback((correctAnswer, allConjugations) => {
+    const correctExtracted = extractPersonFromConjugation(correctAnswer);
+    const correctPronoun = correctExtracted?.person || correctAnswer.split(' ')[0];
+    
     const incorrect = allConjugations
       .filter(c => c !== correctAnswer)
       .map(c => {
@@ -141,9 +161,13 @@ const Blitz = () => {
       });
     
     const shuffled = incorrect.sort(() => Math.random() - 0.5);
-    const wrongOptions = shuffled.slice(0, 3).map(verbPart => `${correctAnswer.split(' ')[0]} ${verbPart}`);
+    const wrongOptions = shuffled.slice(0, 3).map(verbPart => `${correctPronoun} ${verbPart}`);
     
-    const choices = [correctAnswer, ...wrongOptions];
+    const correctOption = correctExtracted 
+      ? `${correctPronoun} ${correctExtracted.verbPart}` 
+      : correctAnswer;
+    
+    const choices = [correctOption, ...wrongOptions];
     return choices.sort(() => Math.random() - 0.5);
   }, []);
 
@@ -166,7 +190,9 @@ const Blitz = () => {
     const extracted = extractPersonFromConjugation(correctConjugation);
     if (!extracted) return null;
     
-    const { person } = extracted;
+    const { person, verbPart } = extracted;
+    
+    const normalizedCorrectAnswer = `${person} ${verbPart}`;
     
     return {
       verb,
@@ -174,7 +200,7 @@ const Blitz = () => {
       tense: randomTense,
       person,
       personLabel: getPersonLabel(person),
-      correctAnswer: correctConjugation,
+      correctAnswer: normalizedCorrectAnswer,
       options: generateOptions(correctConjugation, conjugations),
     };
   }, [generateOptions]);
