@@ -8,6 +8,8 @@ import { toast } from 'sonner';
 import { Zap, ArrowLeft, Trophy, Target, Clock, X, Check } from 'lucide-react';
 import correctSound from '../../assets/correct.mp3';
 import wrongSound from '../../assets/wrong.mp3';
+import tenSecondsSound from '../../assets/10.mp3';
+import doneSound from '../../assets/done.mp3';
 
 const API_BASE = 'https://verby-back.vercel.app/api';
 const GAME_DURATION = 60;
@@ -99,6 +101,18 @@ const Blitz = () => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
+  }, [gameState]);
+
+  useEffect(() => {
+    if (gameState === 'playing' && timeLeft === 10) {
+      new Audio(tenSecondsSound).play().catch(() => {});
+    }
+  }, [timeLeft, gameState]);
+
+  useEffect(() => {
+    if (gameState === 'ended') {
+      new Audio(doneSound).play().catch(() => {});
+    }
   }, [gameState]);
 
   const fetchRandomVerb = useCallback(async () => {
@@ -563,7 +577,7 @@ const Blitz = () => {
             )}
           </div>
           
-          <div className={`px-3 py-1.5 rounded font-bold text-sm ${
+          <div className={`px-4 py-2 rounded-lg font-bold text-2xl ${
             timeLeft <= 10 ? 'bg-red-500 text-white' : 'bg-[#333333] text-white'
           }`}>
             {timeLeft}s
@@ -574,7 +588,7 @@ const Blitz = () => {
           <div className="text-center py-20 text-sm text-gray-400">Loading...</div>
         ) : currentQuestion ? (
           <div>
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <div className="text-[10px] text-gray-400 uppercase tracking-widest mb-2 font-bold">
                 {currentQuestion.mode} · {currentQuestion.tense}
               </div>
@@ -586,7 +600,7 @@ const Blitz = () => {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-3">
               {options.map((option, index) => {
                 const isSelected = selectedAnswer === option;
                 const isCorrect = option === currentQuestion.correctAnswer;
@@ -618,7 +632,7 @@ const Blitz = () => {
               })}
             </div>
             
-            <div className="mt-4 text-center text-xs text-gray-400">
+            <div className="mt-6 text-center text-xs text-gray-400">
               {totalAnswered} · {correctAnswers} correct
             </div>
           </div>
