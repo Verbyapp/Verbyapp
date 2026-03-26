@@ -1,6 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Toaster } from 'sonner';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import VerbyLanding from './pages/VerbyLanding';
 import Login from './pages/auth/Login';
 import Profile from './pages/profile/profile';
@@ -13,6 +14,22 @@ import CommunityDuels from './pages/community/duels';
 import CommunityMastery from './pages/community/mastery';
 import CommunityDaily from './pages/community/daily';
 
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  
+  if (loading) return null;
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -21,11 +38,11 @@ function App() {
         <Routes>
           <Route path="/" element={<VerbyLanding />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/profile/:id" element={<PublicProfile />} />
-          <Route path="/profile/edit" element={<EditProfile />} />
-          <Route path="/arena" element={<Arena />} />
-          <Route path="/arena/blitz" element={<Blitz />} />
+          <Route path="/profile/edit" element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+          <Route path="/arena" element={<ProtectedRoute><Arena /></ProtectedRoute>} />
+          <Route path="/arena/blitz" element={<ProtectedRoute><Blitz /></ProtectedRoute>} />
           <Route path="/community/blitz" element={<CommunityBlitz />} />
           <Route path="/community/duels" element={<CommunityDuels />} />
           <Route path="/community/mastery" element={<CommunityMastery />} />
