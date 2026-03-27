@@ -27,6 +27,7 @@ const MainNavbar = () => {
   const communityRef = useRef(null);
   const searchRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const mobileMenuContentRef = useRef(null);
   const searchTimeoutRef = useRef(null);
 
   useEffect(() => {
@@ -52,14 +53,19 @@ const MainNavbar = () => {
         setSearchResults([]);
         setIsSearching(false);
       }
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
-        setIsMobileMenuOpen(false);
+      if (isMobileMenuOpen) {
+        const isInsideMobileMenu = 
+          (mobileMenuRef.current && mobileMenuRef.current.contains(event.target)) ||
+          (mobileMenuContentRef.current && mobileMenuContentRef.current.contains(event.target));
+        if (!isInsideMobileMenu) {
+          setIsMobileMenuOpen(false);
+        }
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isMobileMenuOpen]);
 
   const searchUsers = useCallback(async (searchTerm) => {
     if (searchTerm.length < 2) {
@@ -151,7 +157,7 @@ const MainNavbar = () => {
 
   return (
     <header className="border-b border-[#DEDDDA] bg-[#F0EFEB] sticky top-0 z-50 px-4 py-3">
-      <nav className="max-w-[1400px] mx-auto flex items-center justify-between">
+      <nav className="max-w-[1400px] mx-auto relative flex items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/arena" className="font-bold text-lg tracking-tighter text-[#EB3514] font-sans italic">VERBY.</Link>
           
@@ -311,7 +317,11 @@ const MainNavbar = () => {
       </nav>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-[#DEDDDA] shadow-lg py-4 px-4">
+        <div 
+          ref={mobileMenuContentRef}
+          className="md:hidden absolute top-full left-0 right-0 bg-white border-b border-[#DEDDDA] shadow-lg py-4 px-4 z-[60]"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="mb-4">
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Navigation</p>
             <div className="space-y-1">

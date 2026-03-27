@@ -71,53 +71,53 @@ const CommunityBlitz = () => {
     <div className="min-h-screen font-mono bg-[#F0EFEB] text-[#333333]">
       <MainNavbar />
 
-      <div className="max-w-4xl mx-auto px-6 py-10">
+      <div className="max-w-4xl mx-auto px-4 py-6 md:px-6 md:py-10">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-lg bg-[#EB3514] flex items-center justify-center">
-            <Zap size={20} className="text-white" />
+          <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg bg-[#EB3514] flex items-center justify-center">
+            <Zap size={16} className="md:size-5 text-white" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">Blitz Leaderboard</h1>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Blitz</h1>
         </div>
-        <p className="text-sm text-gray-500 mb-8">Top verb conjugation masters ranked by rating</p>
+        <p className="text-xs md:text-sm text-gray-500 mb-6 md:mb-8">Top verb conjugation masters ranked by rating</p>
 
-        <div className="flex gap-4 mb-8">
-          <div className="px-5 py-3 bg-[#F0EFEB] border border-[#DEDDDA] rounded-md flex items-center gap-3">
-            <span className="text-2xl font-bold">{players.length}</span>
-            <span className="text-xs text-gray-500 uppercase tracking-wide">Players</span>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 mb-6 md:mb-8">
+          <div className="px-3 md:px-5 py-2 md:py-3 bg-[#F0EFEB] border border-[#DEDDDA] rounded-md flex items-center gap-2 md:gap-3">
+            <span className="text-lg md:text-2xl font-bold">{players.length}</span>
+            <span className="text-[9px] md:text-xs text-gray-500 uppercase tracking-wide">Players</span>
           </div>
-          <div className="px-5 py-3 bg-[#F0EFEB] border border-[#DEDDDA] rounded-md flex items-center gap-3">
-            <span className="text-2xl font-bold">{players[0]?.rating || '-'}</span>
-            <span className="text-xs text-gray-500 uppercase tracking-wide">Top ELO</span>
+          <div className="px-3 md:px-5 py-2 md:py-3 bg-[#F0EFEB] border border-[#DEDDDA] rounded-md flex items-center gap-2 md:gap-3">
+            <span className="text-lg md:text-2xl font-bold">{players[0]?.rating || '-'}</span>
+            <span className="text-[9px] md:text-xs text-gray-500 uppercase tracking-wide">Top ELO</span>
           </div>
           {players[0] && (
             <Link 
               to={`/profile/${players[0].uid}`}
-              className="px-5 py-3 bg-[#EB3514] text-white rounded-md flex items-center gap-3 hover:bg-[#EB3514]/90 transition-colors"
+              className="col-span-2 md:col-span-1 px-3 md:px-5 py-2 md:py-3 bg-[#EB3514] text-white rounded-md flex items-center gap-2 hover:bg-[#EB3514]/90 transition-colors"
             >
-              <img src={GOLD_TROPHY_IMG} alt="trophy" className="w-6 h-6 object-contain brightness-0 invert" />
+              <img src={GOLD_TROPHY_IMG} alt="trophy" className="w-5 h-5 md:w-6 md:h-6 object-contain brightness-0 invert" />
               <div>
-                <div className="text-xs text-white/80 uppercase tracking-wide">Leader</div>
-                <div className="text-sm font-bold">{players[0].displayName}</div>
+                <div className="text-[9px] md:text-xs text-white/80 uppercase tracking-wide">Leader</div>
+                <div className="text-xs md:text-sm font-bold truncate">{players[0].displayName}</div>
               </div>
             </Link>
           )}
         </div>
 
         {loading ? (
-          <div className="bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg p-6">
+          <div className="bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg p-4 md:p-6">
             <div className="space-y-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                <div key={i} className="h-12 bg-white border border-[#DEDDDA] rounded animate-pulse"></div>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-12 md:h-14 bg-white border border-[#DEDDDA] rounded animate-pulse"></div>
               ))}
             </div>
           </div>
         ) : players.length === 0 ? (
-          <div className="bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg p-12 text-center">
+          <div className="bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg p-8 md:p-12 text-center">
             <p className="text-gray-500">No players yet</p>
           </div>
         ) : (
           <>
-            <div className="bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg overflow-hidden">
+            <div className="hidden md:block bg-[#F0EFEB] border border-[#DEDDDA] rounded-lg overflow-hidden">
               <div className="grid grid-cols-12 gap-4 px-5 py-3 border-b border-[#DEDDDA] bg-white">
                 <div className="col-span-1 text-xs font-bold text-gray-500 uppercase tracking-wider">#</div>
                 <div className="col-span-6 text-xs font-bold text-gray-500 uppercase tracking-wider">Player</div>
@@ -177,22 +177,76 @@ const CommunityBlitz = () => {
               })}
             </div>
 
+            <div className="md:hidden space-y-2">
+              {currentPlayers.map((player) => {
+                const tier = getRankTier(player.position);
+
+                return (
+                  <Link
+                    key={player.uid}
+                    to={`/profile/${player.uid}`}
+                    className="block bg-white border border-[#DEDDDA] rounded-lg p-3 hover:bg-[#F0EFEB] transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-[#DEDDDA] shrink-0 bg-[#F0EFEB]">
+                          {player.photoURL ? (
+                            <img
+                              src={player.photoURL}
+                              alt={player.displayName}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-xs font-bold text-gray-400">
+                              {player.displayName.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2">
+                            {player.position === 1 ? (
+                              <img src={GOLD_TROPHY_IMG} alt="trophy" className="w-4 h-4 object-contain" />
+                            ) : player.position <= 10 ? (
+                              <img src={SILVER_TROPHY_IMG} alt="trophy" className="w-4 h-4 object-contain" />
+                            ) : (
+                              <span className="text-xs font-medium text-gray-400 w-4">#{player.position}</span>
+                            )}
+                            <span className="text-sm font-medium truncate">{player.displayName}</span>
+                          </div>
+                          <div className="flex items-center gap-3 mt-0.5">
+                            <span className="text-[10px] text-gray-400 uppercase tracking-wide">{tier.name}</span>
+                            <span className="text-[10px] text-gray-400">{player.games} games</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0 ml-2">
+                        <div className="text-base font-bold">{player.rating}</div>
+                        <div className={`text-[10px] ${player.games > 0 && (player.wins / player.games) >= 0.5 ? 'text-green-600' : 'text-gray-400'}`}>
+                          {player.games > 0 ? Math.round((player.wins / player.games) * 100) : 0}%
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
             {totalPages > 1 && (
               <div className="flex items-center justify-between mt-6">
                 <button
                   onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 text-xs font-bold bg-[#F0EFEB] border border-[#DEDDDA] rounded hover:bg-[#EAE9E4] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-3 md:px-4 py-2 text-xs md:text-sm font-bold bg-[#F0EFEB] border border-[#DEDDDA] rounded hover:bg-[#EAE9E4] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
-                  Previous
+                  Prev
                 </button>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs md:text-sm text-gray-500">
                   {currentPage} / {totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 text-xs font-bold bg-[#F0EFEB] border border-[#DEDDDA] rounded hover:bg-[#EAE9E4] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="px-3 md:px-4 py-2 text-xs md:text-sm font-bold bg-[#F0EFEB] border border-[#DEDDDA] rounded hover:bg-[#EAE9E4] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   Next
                 </button>
