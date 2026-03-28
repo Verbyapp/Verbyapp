@@ -42,7 +42,7 @@ const Navbar = () => {
               </div>
             </div>
 
-            <a href="#" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Leaderboard</a>
+            <a href="/community/blitz" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Leaderboard</a>
             <a href="https://github.com/Verbyapp" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Open Source</a>
           </div>
         </div>
@@ -52,7 +52,7 @@ const Navbar = () => {
           <a href="/arena" className="hidden lg:block text-[#333333] px-3 py-1.5 rounded-lg transition-colors font-mono text-sm bg-white border border-gray-200 hover:border-gray-400">
             Arena
           </a>
-          <a href="#" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md transition-colors font-mono px-4 py-1.5 text-sm shadow-sm">
+          <a href="/login" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md transition-colors font-mono px-4 py-1.5 text-sm shadow-sm">
             Get started
           </a>
         </div>
