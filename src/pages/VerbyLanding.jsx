@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Trophy, Users, Zap, Brain, History, BookOpen, Star, Github, Globe, BarChart3, Target, Swords } from 'lucide-react';
+import { Trophy, Users, Zap, Brain, History, BookOpen, Star, Github, Globe, BarChart3, Target, Swords, Flame, Coffee, Sprout } from 'lucide-react';
 
 const VerbyLanding = () => {
   return (
@@ -102,24 +102,40 @@ const VerbyLanding = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <ModeCard 
-                    icon={<Zap className="text-[#EB3514]"/>} 
+                    icon={<Zap className="text-[#333333]"/>} 
                     title="Blitz" 
                     desc="60 seconds. How many verbs can you conjugate correctly? The ultimate test of muscle memory."
+                    color="#333333"
                 />
                 <ModeCard 
                     icon={<Swords className="text-[#EB3514]"/>} 
                     title="Ranked Duels" 
                     desc="Climb the global ladder. Compete head-to-head in real-time against players at your skill level."
+                    color="#EB3514"
                 />
                 <ModeCard 
-                    icon={<Brain className="text-[#EB3514]"/>} 
-                    title="Mistake Mastery" 
-                    desc="Verby tracks every error. This mode intelligently cycles back to the verbs you find hardest."
+                    icon={<Flame className="text-[#EB3514]"/>} 
+                    title="Verby Streak" 
+                    desc="How long can you go? Keep conjugating verbs until you make a mistake. One wrong answer ends it all."
+                    color="#EB3514"
                 />
                 <ModeCard 
-                    icon={<Target className="text-[#EB3514]"/>} 
-                    title="Daily Quest" 
-                    desc="A curated set of 10 puzzles every day. Maintain your streak and unlock new profile themes."
+                    icon={<Coffee className="text-[#6366F1]"/>} 
+                    title="Zen Mode" 
+                    desc="Practice at your own pace. Customize modes and tenses. No pressure, no timer."
+                    color="#6366F1"
+                />
+                <ModeCard 
+                    icon={<Brain className="text-[#059669]"/>} 
+                    title="SDL Blitz" 
+                    desc="Test your conjugation skills with the SDL question set. 60 seconds to prove your mastery."
+                    color="#059669"
+                />
+                <ModeCard 
+                    icon={<Sprout className="text-[#10B981]"/>} 
+                    title="SDL Zen" 
+                    desc="Practice grammar at your own pace. Choose level and topics, learn from explanations."
+                    color="#10B981"
                 />
             </div>
           </div>
@@ -223,10 +239,10 @@ const VerbyLanding = () => {
 };
 
 // Sub-components updated with #F0EFEB
-const ModeCard = ({ icon, title, desc }) => (
+const ModeCard = ({ icon, title, desc, color = '#EB3514' }) => (
     /* Changed bg-white to bg-[#F0EFEB] */
     <div className="p-6 bg-[#F0EFEB] border border-[#DEDDDA] rounded-xl shadow-sm hover:border-[#EB3514]/30 transition-all group">
-        <div className="mb-4 bg-[#F0EFEB] w-10 h-10 rounded-lg flex items-center justify-center border border-[#DEDDDA] group-hover:scale-110 transition-transform text-[#EB3514]">
+        <div className="mb-4 bg-[#F0EFEB] w-10 h-10 rounded-lg flex items-center justify-center border border-[#DEDDDA] group-hover:scale-110 transition-transform" style={{ color }}>
             {icon}
         </div>
         <h3 className="font-bold text-[#333333] mb-2">{title}</h3>

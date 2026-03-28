@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, Zap, Users, Brain, History, Trophy, BookOpen } from 'lucide-react';
+import { ChevronDown, Zap, Swords, Flame, Coffee, Brain, Sprout } from 'lucide-react';
 
 const Navbar = () => {
   const [isModesOpen, setIsModesOpen] = useState(false);
@@ -32,16 +32,18 @@ const Navbar = () => {
               {/* The actual Dropdown Menu */}
               <div className={`absolute left-0 top-full pt-2 transition-all duration-150 ${isModesOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-1 pointer-events-none'}`}>
                 <div className="w-64 rounded-lg border border-[#F1F0EC] bg-white shadow-xl p-1.5">
-                  <DropdownItem icon={<Zap size={16}/>} title="Blitz Mode" desc="Timed conjugation bursts" />
-                  <DropdownItem icon={<Users size={16}/>} title="Friend Duels" desc="1v1 Real-time battles" />
-                  <DropdownItem icon={<Brain size={16}/>} title="Error Review" desc="Target your weak spots" />
-                  <DropdownItem icon={<History size={16}/>} title="Daily Quest" desc="New verbs every 24h" />
+                  <DropdownItem icon={<Zap size={16} className="text-[#333333]"/>} title="Blitz" desc="60-second conjugation bursts" />
+                  <DropdownItem icon={<Swords size={16} className="text-[#EB3514]"/>} title="Ranked Duels" desc="Climb the global ladder" />
+                  <DropdownItem icon={<Flame size={16} className="text-[#EB3514]"/>} title="Verby Streak" desc="One mistake ends it all" />
+                  <DropdownItem icon={<Coffee size={16} className="text-[#6366F1]"/>} title="Zen Mode" desc="Practice at your own pace" />
+                  <DropdownItem icon={<Brain size={16} className="text-[#059669]"/>} title="SDL Blitz" desc="Grammar in 60 seconds" />
+                  <DropdownItem icon={<Sprout size={16} className="text-[#10B981]"/>} title="SDL Zen" desc="Learn with explanations" />
                 </div>
               </div>
             </div>
 
-            <a href="#" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Leaderboard</a>
-            <a href="#" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Open Source</a>
+            <a href="/community/blitz" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Leaderboard</a>
+            <a href="https://github.com/Verbyapp" className="text-gray-400 hover:text-[#333333] transition-colors font-mono text-sm">Open Source</a>
           </div>
         </div>
 
@@ -50,7 +52,7 @@ const Navbar = () => {
           <a href="/arena" className="hidden lg:block text-[#333333] px-3 py-1.5 rounded-lg transition-colors font-mono text-sm bg-white border border-gray-200 hover:border-gray-400">
             Arena
           </a>
-          <a href="#" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md transition-colors font-mono px-4 py-1.5 text-sm shadow-sm">
+          <a href="/login" className="bg-[#EB3514] hover:bg-[#EB3514]/90 text-white font-bold rounded-md transition-colors font-mono px-4 py-1.5 text-sm shadow-sm">
             Get started
           </a>
         </div>
@@ -60,8 +62,8 @@ const Navbar = () => {
 };
 
 const DropdownItem = ({ icon, title, desc }) => (
-  <a href="#" className="group flex items-start gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-[#F0EFEB]">
-    <div className="text-gray-400 group-hover:text-[#EB3514] transition-colors mt-0.5">
+  <a href="/arena" className="group flex items-start gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-[#F0EFEB]">
+    <div className="mt-0.5">
       {icon}
     </div>
     <div className="flex flex-col">
