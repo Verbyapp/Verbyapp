@@ -12,9 +12,7 @@ import Blitz from './pages/arena/blitz';
 import VerbyStreak from './pages/arena/VerbyStreak';
 import ZenMode from './pages/arena/ZenMode';
 import CommunityBlitz from './pages/community/blitz';
-import CommunityDuels from './pages/community/duels';
-import CommunityMastery from './pages/community/mastery';
-import CommunityDaily from './pages/community/daily';
+import CommunityStreak from './pages/community/streak';
 import Tools from './pages/tools/tools';
 import VerbSearch from './pages/tools/search';
 import Admin from './pages/admin/admin';
@@ -51,9 +49,7 @@ function App() {
           <Route path="/arena/streak" element={<ProtectedRoute><VerbyStreak /></ProtectedRoute>} />
           <Route path="/arena/zen" element={<ProtectedRoute><ZenMode /></ProtectedRoute>} />
           <Route path="/community/blitz" element={<CommunityBlitz />} />
-          <Route path="/community/duels" element={<CommunityDuels />} />
-          <Route path="/community/mastery" element={<CommunityMastery />} />
-          <Route path="/community/daily" element={<CommunityDaily />} />
+          <Route path="/community/streak" element={<CommunityStreak />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/tools/search" element={<VerbSearch />} />
           <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
