@@ -5,11 +5,13 @@ import { useAuth } from '../../context/AuthContext';
 import { ref, get } from 'firebase/database';
 import { database } from '../../lib/firebase';
 import { Users, Gamepad2, BarChart3, Clock, Flame, Zap, Coffee } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Admin = () => {
   useAuth();
   const [users, setUsers] = useState([]);
   const [allGames, setAllGames] = useState([]);
+  const [userGrowth, setUserGrowth] = useState([]);
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalGames: 0,
@@ -88,6 +90,27 @@ const Admin = () => {
             zenCorrect,
             zenWrong,
           });
+
+          const growthMap = {};
+          snapshot.forEach((child) => {
+            const profile = child.val().profile || {};
+            const createdAt = profile.createdAt;
+            if (createdAt) {
+              const date = new Date(createdAt).toISOString().split('T')[0];
+              growthMap[date] = (growthMap[date] || 0) + 1;
+            }
+          });
+
+          const growthData = Object.entries(growthMap)
+            .map(([date, count]) => ({ date, users: count }))
+            .sort((a, b) => a.date.localeCompare(b.date));
+
+          let cumulative = 0;
+          const userGrowthData = growthData.map((item) => {
+            cumulative += item.users;
+            return { date: item.date, users: cumulative };
+          });
+          setUserGrowth(userGrowthData);
 
           usersData.sort((a, b) => {
             if (a.role === 'admin' && b.role !== 'admin') return -1;
@@ -217,6 +240,43 @@ const Admin = () => {
             </div>
           </div>
         </div>
+
+        {userGrowth.length > 0 && (
+          <div className="bg-white border border-[#DEDDDA] rounded-lg p-6 mb-8">
+            <h2 className="text-lg font-bold flex items-center gap-2 mb-4">
+              <Users size={18} />
+              User Growth
+            </h2>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={userGrowth}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />
+                  <XAxis 
+                    dataKey="date" 
+                    tick={{ fontSize: 11 }}
+                    tickFormatter={(value) => {
+                      const date = new Date(value);
+                      return `${date.getMonth() + 1}/${date.getDate()}`;
+                    }}
+                  />
+                  <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
+                  <Tooltip 
+                    labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                    formatter={(value) => [`${value} users`, 'Total']}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="users" 
+                    stroke="#6366F1" 
+                    strokeWidth={2}
+                    dot={{ fill: '#6366F1', r: 4 }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           <div className="bg-white border border-[#DEDDDA] rounded-lg">
